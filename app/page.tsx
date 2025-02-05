@@ -1,11 +1,23 @@
-export default function Home() {
+import { auth } from "better-auth"; // Импорт хука напрямую
+import Link from 'next/link';
+
+export default async function Home() {
+  const { data: session } = await auth.getSession()
+
+  if (status === "loading") {
+    return <p>Загрузка...</p>;
+  }
+
   return (
-    <main>
-      <div>
-       <div>
-        <h1>Hello, World!</h1>
-       </div>
-      </div>
-    </main>
+    <div>
+      <h1>Добро пожаловать!</h1>
+      {session ? (
+        <Link href="/create-form">
+          <button>Перейти к редактору форм</button>
+        </Link>
+      ) : (
+        <p>Пожалуйста, войдите в систему.</p>
+      )}
+    </div>
   );
 }
