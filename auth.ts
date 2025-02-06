@@ -15,4 +15,4 @@ export const auth = betterAuth({
   }
 } satisfies BetterAuthOptions);
 
-export type Session = typeof auth.$infer.Session;
+export type Session = typeof auth.$Infer.Session;
