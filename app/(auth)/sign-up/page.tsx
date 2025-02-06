@@ -51,7 +51,7 @@ export default function SignUp() {
 					toast({
 						title: "Account created",
 						description:
-							"Your account has been created. Check your email for a verification link.",
+							"Your account has been created. You can use the form creator app.",
 					});
 				},
 				onError: (ctx) => {

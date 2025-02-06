@@ -29,6 +29,7 @@ export default async function RootLayout({
  const session = await auth.api.getSession({
   headers: await headers(),
  })
+ 
   return (
     <html lang="en">
       <body

@@ -12,12 +12,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
-  },
-  events: {
-  async onUserSignUp(user) {
-    user.emailVerified = true;
-  },
-}
+  }
 } satisfies BetterAuthOptions);
 
 export type Session = typeof auth.$infer.Session;
