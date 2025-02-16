@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ProviderLayout from "./Provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,7 @@ export default async function RootLayout({
  const session = await auth.api.getSession({
   headers: await headers(),
  })
- 
+
   return (
     <html lang="en">
       <body
@@ -37,7 +38,9 @@ export default async function RootLayout({
       >
         <Navbar session={session} />
         <div className="min-h-screen pt-20 flex flex-col">
-          {children}
+          <ProviderLayout>
+            {children}
+          </ProviderLayout>
         </div>
         <Toaster />
       </body>

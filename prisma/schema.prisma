@@ -22,7 +22,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
-  forms          Form[]    // Связь с созданными пользователем шаблонами
+  forms         Form[]    @relation("UserForms")
+  responses     Response[] // Добавлена связь с ответами
 }
 
 model Session {
@@ -65,47 +66,26 @@ model Verification {
   updatedAt  DateTime @updatedAt
 }
 
-model Form { // Модель для шаблонов форм
-  id           String     @id @default(cuid()) @map("_id")
-  title        String     // Название шаблона
-  description  String?    // Описание шаблона
-  image        String?    // Ссылка на изображение
-  theme        String     // Тема шаблона
-  visibility   String     // Доступность (публичный/ограниченный доступ)
-  userId       String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+model Form {
+  id          String    @id @default(cuid()) @map("_id")
+  title       String
+  description String
+  questions   Json
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questions    Question[] // Связь с вопросами шаблона
-  formTags     FormTag[]  // Связь с промежуточной моделью для тегов
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserForms")
+  responses  Response[] // Добавлена связь с ответами
 }
 
-model Question { // Модель для вопросов
-  id           String    @id @default(cuid()) @map("_id")
-  text         String    // Текст вопроса
-  questionType String    // Тип вопроса (например, выбор из списка, текст и т. д.)
-  formId       String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+model Response {
+  id        String   @id @default(cuid()) @map("_id")
+  formId    String
+  userId    String
+  answers   Json     // JSON-объект с ответами пользователя
+  createdAt DateTime @default(now())
 
-  form         Form      @relation(fields: [formId], references: [id], onDelete: Cascade)
-}
-
-model Tag { // Модель для тегов
-  id           String     @id @default(cuid()) @map("_id")
-  name         String     // Название тега
-  formTags     FormTag[]  // Связь с промежуточной моделью для форм
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-}
-
-model FormTag { // Промежуточная модель для связи между Form и Tag
-  id      String   @id @default(cuid()) @map("_id") // Уникальный идентификатор
-  formId  String
-  tagId   String
-  form    Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
-  tag     Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
-
-  @@unique([formId, tagId]) // Гарантия уникальности пары formId и tagId
+  form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
