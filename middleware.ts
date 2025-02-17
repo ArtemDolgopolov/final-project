@@ -12,6 +12,7 @@ export default async function authMiddleware(request: NextRequest) {
   const isAdminRoute = adminRoutes.includes(pathName);
   const isFormCreatorRoute = formCreatorRoutes.includes(pathName);
 
+  // Получаем сессию
   const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
     baseURL: request.nextUrl.origin,
     headers: {
@@ -32,6 +33,22 @@ export default async function authMiddleware(request: NextRequest) {
   if (isFormCreatorRoute) {
     if (!session) {
       return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  if (session && pathName.startsWith("/forms/")) {
+    const segments = pathName.split("/");
+    if (segments.length === 3) {
+      const formId = segments[2];
+      try {
+        const formResponse = await betterFetch<{ userId: string }>(`/api/forms/${formId}`, {
+          baseURL: request.nextUrl.origin,
+          headers: { cookie: request.headers.get("cookie") || "" },
+        });
+        if (formResponse.data && formResponse.data.userId === session.user.id) {
+          return NextResponse.redirect(new URL(`/answers/${formId}`, request.url));
+        }
+      } catch (error) {}
     }
   }
 

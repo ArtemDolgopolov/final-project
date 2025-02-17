@@ -45,8 +45,8 @@ export default function EditableAnswers({
 
         <div className="bg-white p-6 shadow-md rounded-md">
           <div className="mt-6 space-y-4">
-            {questions.map((field) => (
-              <div key={field.id} className="bg-gray-50 p-4 rounded-md shadow-sm">
+            {questions.map((field, index) => (
+              <div key={field.id || index} className="bg-gray-50 p-4 rounded-md shadow-sm">
                 <label className="block text-lg font-semibold">{field.label}</label>
                 <p className="text-sm text-gray-500 mb-2">{field.title}</p>
 
@@ -67,6 +67,7 @@ export default function EditableAnswers({
                ) : (
                   <input
                     type={field.type}
+                    onChange={(e) => handleChange(field.id ?? field.title, e.target.value)}
                     value={answers[field.id ?? field.title] || ""}
                     className="w-full p-2 border rounded-md"
                   />

@@ -24,6 +24,8 @@ model User {
   accounts      Account[]
   forms         Form[]    @relation("UserForms")
   responses     Response[] // Добавлена связь с ответами
+  likes         Like[]     // Обратная связь для лайков
+  comments      Comment[] 
 }
 
 model Session {
@@ -76,7 +78,9 @@ model Form {
   updatedAt   DateTime  @updatedAt
 
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserForms")
-  responses  Response[] // Добавлена связь с ответами
+  responses  Response[]
+  likes      Like[]
+  comments   Comment[] 
 }
 
 model Response {
@@ -88,4 +92,27 @@ model Response {
 
   form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id        String @id @default(cuid()) @map("_id")
+  formId    String
+  userId    String
+
+  formLikes Form @relation(fields: [formId], references: [id])
+  userLikes User @relation(fields: [userId], references: [id])
+
+
+  @@unique([formId, userId]) // Один лайк от одного пользователя
+}
+
+model Comment {
+  id        String   @id @default(cuid()) @map("_id")
+  formId    String
+  userId    String
+  text      String
+  createdAt DateTime @default(now())
+
+  formComments Form @relation(fields: [formId], references: [id])
+  userComments User @relation(fields: [userId], references: [id])
 }
