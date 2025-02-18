@@ -29,10 +29,10 @@ export default function EditableAnswers({
       });
 
       if (!res.ok) {
-        throw new Error("Ошибка сохранения");
+        throw new Error("Error during saving");
       }
     } catch (error) {
-      console.error("Ошибка:", error);
+      console.error("Error:", error);
     } finally {
       setSaving(false);
     }

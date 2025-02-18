@@ -80,22 +80,19 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
      return NextResponse.json({ error: "Некорректные данные" }, { status: 400 });
    }
 
-   // Проверяем, существует ли уже ответ пользователя на эту форму
    let existingResponse = await prisma.response.findFirst({
      where: { userId: session.user.id, formId },
    });
 
    if (existingResponse) {
-     // Если ответ уже существует, обновляем его и обновляем createdAt
      existingResponse = await prisma.response.update({
        where: { id: existingResponse.id },
        data: {
          answers,
-         createdAt: new Date(), // Обновляем время
+         createdAt: new Date(),
        },
      });
    } else {
-     // Если ответа нет, создаем новый
      existingResponse = await prisma.response.create({
        data: {
          userId: session.user.id,
@@ -110,5 +107,23 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
  } catch (error) {
    console.error("Ошибка обновления ответа:", error);
    return NextResponse.json({ error: "Ошибка на сервере" }, { status: 500 });
+ }
+}
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+ try {
+   const formId = params.id;
+
+   if (!formId) {
+     return NextResponse.json({ error: "Form ID is required" }, { status: 400 });
+   }
+
+   await prisma.form.delete({
+     where: { id: formId },
+   });
+
+   return NextResponse.json({ message: "Form deleted successfully" }, { status: 200 });
+ } catch (error) {
+   return NextResponse.json({ error: "Failed to delete form" }, { status: 500 });
  }
 }

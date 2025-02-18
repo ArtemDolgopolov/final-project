@@ -23,8 +23,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   forms         Form[]    @relation("UserForms")
-  responses     Response[] // Добавлена связь с ответами
-  likes         Like[]     // Обратная связь для лайков
+  responses     Response[]
+  likes         Like[] 
   comments      Comment[] 
 }
 
@@ -87,7 +87,7 @@ model Response {
   id        String   @id @default(cuid()) @map("_id")
   formId    String
   userId    String
-  answers   Json     // JSON-объект с ответами пользователя
+  answers   Json
   createdAt DateTime @default(now())
 
   form Form @relation(fields: [formId], references: [id], onDelete: Cascade)
