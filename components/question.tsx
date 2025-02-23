@@ -42,7 +42,7 @@ export default function Question({
   addQuestion: () => void;
   handleDelete: () => void;
   isActiveQuestion: boolean;
-  onclick: any;
+  onclick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }) {
 
   const activeQuestionIndex = useSelector(

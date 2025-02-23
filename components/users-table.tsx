@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { User } from "@prisma/client";
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/auth-client";
 import BanButton from "./ban-button";
 import UnbanButton from "./unban-button";
@@ -22,8 +21,6 @@ export default function UsersTable({ userId }: { userId: string }) {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-
-  const router = useRouter();
 
   const fetchUsers = useCallback(async () => {
     try {

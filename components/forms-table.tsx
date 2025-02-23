@@ -36,6 +36,7 @@ export default function FormsTable({ forms }: FormsTableProps) {
         alert("Failed to delete form");
       }
     } catch (error) {
+      console.error("Error deleting form", error)
       alert("Error deleting form");
     } finally {
       setLoading(null);

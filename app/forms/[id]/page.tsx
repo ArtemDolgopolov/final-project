@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 interface Question {
   id: string;
@@ -99,6 +99,7 @@ export default function FormPage() {
       await axios.post(`/api/forms/${id}`, { answers });
       alert("Answers are saved!");
     } catch (error) {
+      console.error("Error during saving: ", error);
       alert("Error during saving");
     }
   };
@@ -113,7 +114,7 @@ export default function FormPage() {
       await axios.post(`/api/forms/${id}/like`);
       setLiked(true);
       setLikeCount((prev) => prev + 1);
-    } catch (error: any) {
+    } catch (error: AxiosError) {
       if (error.response?.data?.error) {
         alert(error.response.data.error);
         setLiked(true);
@@ -137,6 +138,7 @@ export default function FormPage() {
       setComments((prev) => [...prev, res.data]);
       setNewComment("");
     } catch (error) {
+      console.error("Error submitting comment: ", error);
       alert("Error submitting comment");
     }
   };

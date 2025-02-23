@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function GET(req: NextRequest, context: { params: { id?: string } }) {
  try {
-     const session = await auth.api.getSession({ headers: await headers() });
+     await auth.api.getSession({ headers: await headers() });
 
      const formId = context.params?.id;
      if (!formId) {
@@ -123,6 +123,7 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
 
    return NextResponse.json({ message: "Form deleted successfully" }, { status: 200 });
  } catch (error) {
+   console.error("Error during deleting form:", error);
    return NextResponse.json({ error: "Failed to delete form" }, { status: 500 });
  }
 }

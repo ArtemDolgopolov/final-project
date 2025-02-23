@@ -72,7 +72,7 @@ export default async function UserDashboard() {
                 </div>
               ))
             ) : (
-              <p>You don't have saved answers.</p>
+              <p>You do not have saved answers.</p>
             )}
           </div>
         </section>
