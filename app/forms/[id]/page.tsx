@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
-import type { AxiosError } from "axios";
 
 interface Question {
   id: string;
@@ -115,7 +114,7 @@ export default function FormPage() {
       await axios.post(`/api/forms/${id}/like`);
       setLiked(true);
       setLikeCount((prev) => prev + 1);
-    } catch (error: AxiosError) {
+    } catch (error: unknown) {
       if (error.response?.data?.error) {
         alert(error.response.data.error);
         setLiked(true);
