@@ -15,7 +15,7 @@ export default async function Admin() {
   });
 
   const formIds = forms.map(form => form.id);
-  const responses = await prisma.response.findMany({
+  const responses = await prisma.responses.findMany({
     where: { formId: { in: formIds } },
   });
 
