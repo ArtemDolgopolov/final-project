@@ -6,18 +6,17 @@ import EditableAnswers from "@/components/answer-editor";
 import { JSX } from "react";
 
 interface AnswersPageProps {
-  params: Record<string, string>;
+  params: { id: string };
+  searchParams: Record<string, string | string[] | undefined>;
 }
 
-export default async function AnswersPage({
-  params,
-}: AnswersPageProps): Promise<JSX.Element> {
+export default async function AnswersPage({ params }: AnswersPageProps): Promise<JSX.Element> {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
   const formId = params.id;
 
   if (!userId) {
-    return <p className="text-center mt-10">Вы должны быть авторизованы</p>;
+    return <p className="text-center mt-10">You should be authorized</p>;
   }
 
   const response = await prisma.response.findFirst({
