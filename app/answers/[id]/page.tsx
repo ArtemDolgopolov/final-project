@@ -3,15 +3,20 @@ import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import EditableAnswers from "@/components/answer-editor";
+import { JSX } from "react";
 
-export default async function AnswersPage({ params }: { params: { id: string } }) {
+interface AnswersPageProps {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function AnswersPage({
+  params,
+  searchParams,
+}: AnswersPageProps): Promise<JSX.Element> {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
   const formId = params.id;
-
-  if (!userId) {
-    return <p className="text-center mt-10">Вы должны быть авторизованы</p>;
-  }
 
   const response = await prisma.response.findFirst({
     where: { userId, formId },
@@ -22,7 +27,18 @@ export default async function AnswersPage({ params }: { params: { id: string } }
     return notFound();
   }
 
-  const questions = response.form.questions as { id: string; title: string; label: string; type: string }[];
+  const questions = response.form.questions as {
+    id: string;
+    title: string;
+    label: string;
+    type: string;
+  }[];
 
-  return <EditableAnswers formId={formId} initialAnswers={response.answers} questions={questions} />;
+  return (
+    <EditableAnswers
+      formId={formId}
+      initialAnswers={response.answers}
+      questions={questions}
+    />
+  );
 }
