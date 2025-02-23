@@ -6,17 +6,24 @@ import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 
 export default async function Admin() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({ headers: headers() });
   const userId = session?.user?.id;
 
-  // Загружаем формы
   const forms = await prisma.form.findMany({
-    include: {
-      user: true,
-      responses: true,
-    },
+    include: { user: true },
     orderBy: { createdAt: "desc" },
   });
+
+  // 2. Получаем все responses для найденных форм
+  const formIds = forms.map(form => form.id);
+  const responses = await prisma.response.findMany({
+    where: { formId: { in: formIds } },
+  });
+
+  const formsWithResponses = forms.map(form => ({
+    ...form,
+    responses: responses.filter(response => response.formId === form.id),
+  }));
 
   return (
     <main className="flex flex-col">
@@ -28,7 +35,6 @@ export default async function Admin() {
           </p>
         </div>
 
-        {/* Таблица пользователей */}
         <Card>
           <CardHeader>
             <CardTitle>Users</CardTitle>
@@ -38,13 +44,12 @@ export default async function Admin() {
           </CardContent>
         </Card>
 
-        {/* Таблица форм */}
         <Card>
           <CardHeader>
             <CardTitle>Forms</CardTitle>
           </CardHeader>
           <CardContent>
-            <FormsTable forms={forms} />
+            <FormsTable forms={formsWithResponses} />
           </CardContent>
         </Card>
       </div>
