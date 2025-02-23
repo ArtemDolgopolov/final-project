@@ -20,12 +20,13 @@ model User {
   banExpires    Int?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
   sessions      Session[]
   accounts      Account[]
   forms         Form[]    @relation("UserForms")
   responses     Response[]
-  likes         Like[] 
-  comments      Comment[] 
+  likes         Like[]
+  comments      Comment[]
 }
 
 model Session {
@@ -59,15 +60,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Verification {
-  id         String   @id @default(cuid()) @map("_id")
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
 model Form {
   id          String    @id @default(cuid()) @map("_id")
   title       String
@@ -80,7 +72,7 @@ model Form {
   user       User       @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserForms")
   responses  Response[]
   likes      Like[]
-  comments   Comment[] 
+  comments   Comment[]
 }
 
 model Response {
@@ -99,11 +91,10 @@ model Like {
   formId    String
   userId    String
 
-  formLikes Form @relation(fields: [formId], references: [id])
-  userLikes User @relation(fields: [userId], references: [id])
+  formLikes Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  userLikes User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-
-  @@unique([formId, userId]) // Один лайк от одного пользователя
+  @@unique([formId, userId])
 }
 
 model Comment {
@@ -113,6 +104,6 @@ model Comment {
   text      String
   createdAt DateTime @default(now())
 
-  formComments Form @relation(fields: [formId], references: [id])
-  userComments User @relation(fields: [userId], references: [id])
+  formComments Form @relation(fields: [formId], references: [id], onDelete: Cascade)
+  userComments User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

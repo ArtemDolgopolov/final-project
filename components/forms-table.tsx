@@ -31,7 +31,7 @@ export default function FormsTable({ forms }: FormsTableProps) {
       });
 
       if (res.ok) {
-        router.refresh(); // Обновляем список после удаления
+        router.refresh();
       } else {
         alert("Failed to delete form");
       }

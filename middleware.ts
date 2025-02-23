@@ -12,7 +12,6 @@ export default async function authMiddleware(request: NextRequest) {
   const isAdminRoute = adminRoutes.includes(pathName);
   const isFormCreatorRoute = formCreatorRoutes.includes(pathName);
 
-  // Получаем сессию
   const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
     baseURL: request.nextUrl.origin,
     headers: {

@@ -11,7 +11,7 @@ export default async function HomePage() {
   const forms = await prisma.form.findMany({
     include: {
       user: true,
-      responses: true, // Добавляем поле responses, чтобы проверять, ответил ли автор
+      responses: true,
     },
     orderBy: { createdAt: "desc" },
   });
@@ -31,10 +31,8 @@ export default async function HomePage() {
 
       <div className="mt-6 space-y-4">
         {forms.map((form) => {
-          // Определяем, будет ли ссылка на форму или ответы
           let href = `/forms/${form.id}`;
           
-          // Если пользователь — автор формы и уже ответил на неё
           if (
             session &&
             session.user &&

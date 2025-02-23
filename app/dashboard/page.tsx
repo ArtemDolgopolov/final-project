@@ -44,7 +44,7 @@ export default async function UserDashboard() {
           <h2 className="text-2xl font-semibold mb-4">My Forms</h2>
           <div className="space-y-4">
             {forms.length > 0 ? (
-              forms.map((form) => (
+              forms.map((form: Form) => (
                 <div key={form.id} className="bg-white p-4 shadow-md rounded-md">
                   <h3 className="text-lg font-semibold">{form.title}</h3>
                   <p className="text-sm text-gray-600">{form.description}</p>
@@ -63,7 +63,7 @@ export default async function UserDashboard() {
           <h2 className="text-2xl font-semibold mb-4">Мои ответы</h2>
           <div className="space-y-4">
             {responses.length > 0 ? (
-              responses.map((response) => (
+              responses.map((response: Response) => (
                 <div key={response.id} className="bg-white p-4 shadow-md rounded-md">
                   <p className="text-sm text-gray-600">Ответ сохранен: {new Date(response.createdAt).toLocaleString()}</p>
                   <Link href={`/answers/${response.formId}`} className="text-blue-500 hover:underline">

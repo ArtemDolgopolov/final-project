@@ -7,17 +7,17 @@ export async function POST(req: NextRequest, context: { params: { id?: string } 
  try {
    const session = await auth.api.getSession({ headers: req.headers });
    if (!session?.user) {
-     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 });
+     return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
    }
 
    const formId = context.params?.id;
    if (!formId) {
-     return NextResponse.json({ error: 'Не указан ID формы' }, { status: 400 });
+     return NextResponse.json({ error: 'No ID of form' }, { status: 400 });
    }
 
    const { text } = await req.json();
    if (!text || typeof text !== 'string') {
-     return NextResponse.json({ error: 'Необходимо указать текст комментария' }, { status: 400 });
+     return NextResponse.json({ error: 'A comment text is necessary' }, { status: 400 });
    }
 
    const comment = await prisma.comment.create({

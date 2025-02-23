@@ -25,7 +25,6 @@ export default function UsersTable({ userId }: { userId: string }) {
 
   const router = useRouter();
 
-  // 🔄 Функция для загрузки пользователей
   const fetchUsers = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -40,19 +39,16 @@ export default function UsersTable({ userId }: { userId: string }) {
     }
   }, []);
 
-  // 🟢 Загружаем пользователей при первом рендере
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
-  // 🟢 Обновляем локальный список при изменении статуса пользователя
   const updateUserStatus = (userId: string, banned: boolean) => {
     setUsers((prev) =>
       prev.map((user) => (user.id === userId ? { ...user, banned } : user))
     );
   };
 
-  // 🟢 Обновляем локальный список при изменении роли пользователя
   const updateUserRole = (userId: string, role: string) => {
     setUsers((prev) =>
       prev.map((user) => (user.id === userId ? { ...user, role } : user))
