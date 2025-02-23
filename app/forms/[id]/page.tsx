@@ -115,7 +115,7 @@ export default function FormPage() {
       setLiked(true);
       setLikeCount((prev) => prev + 1);
     } catch (error: unknown) {
-      if (error.response?.data?.error) {
+     if (axios.isAxiosError(error) && error.response?.data?.error) {
         alert(error.response.data.error);
         setLiked(true);
       } else {
