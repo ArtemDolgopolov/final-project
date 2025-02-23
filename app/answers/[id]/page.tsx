@@ -3,14 +3,12 @@ import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import EditableAnswers from "@/components/answer-editor";
-import { JSX } from "react";
 
 interface AnswersPageProps {
   params: { id: string };
-  searchParams: Record<string, string | string[] | undefined>;
 }
 
-export default async function AnswersPage({ params }: AnswersPageProps): Promise<JSX.Element> {
+export default async function AnswersPage({ params }: AnswersPageProps) {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
   const formId = params.id;
