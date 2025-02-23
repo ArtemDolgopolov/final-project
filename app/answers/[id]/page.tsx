@@ -11,8 +11,7 @@ interface AnswersPageProps {
 }
 
 export default async function AnswersPage({
-  params,
-  searchParams,
+  params
 }: AnswersPageProps): Promise<JSX.Element> {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
