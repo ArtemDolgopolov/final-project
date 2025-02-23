@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 
 export default async function Admin() {
-  const session = await auth.api.getSession({ headers: headers() });
+  const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
 
   const forms = await prisma.form.findMany({
@@ -14,7 +14,6 @@ export default async function Admin() {
     orderBy: { createdAt: "desc" },
   });
 
-  // 2. Получаем все responses для найденных форм
   const formIds = forms.map(form => form.id);
   const responses = await prisma.response.findMany({
     where: { formId: { in: formIds } },
