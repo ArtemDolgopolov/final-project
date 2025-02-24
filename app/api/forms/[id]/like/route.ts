@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { v4 as uuidv4 } from "uuid";
-import { RouteHandlerContext } from "next/server";
 
-export async function GET(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const formId = context.params.id;
+    const formId = params.id;
     if (!formId) {
       return NextResponse.json({ error: "Не указан ID формы" }, { status: 400 });
     }
@@ -22,14 +24,17 @@ export async function GET(req: NextRequest, context: RouteHandlerContext<{ id: s
   }
 }
 
-export async function POST(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session?.user) {
       return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
     }
 
-    const formId = context.params.id;
+    const formId = params.id;
     if (!formId) {
       return NextResponse.json({ error: "Не указан ID формы" }, { status: 400 });
     }
