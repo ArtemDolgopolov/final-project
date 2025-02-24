@@ -9,13 +9,25 @@ export default async function Admin() {
  const session = await auth.api.getSession({ headers: await headers() });
  const userId = session?.user?.id;
 
+
+ if (!userId) {
+   return <p className="text-center mt-10">You should be authorized</p>;
+ }
+
  const forms = await prisma.form.findMany({
-   include: {
-     user: true,
-     responses: true,
-   },
+   include: { user: true },
    orderBy: { createdAt: "desc" },
  });
+
+ const formIds = forms.map((form) => form.id);
+ const responses = await prisma.response.findMany({
+   where: { formId: { in: formIds } },
+ });
+
+ const formsWithResponses = forms.map((form) => ({
+   ...form,
+   responses: responses.filter((response) => response.formId === form.id),
+ }));
 
  return (
    <main className="flex flex-col">
@@ -41,7 +53,7 @@ export default async function Admin() {
            <CardTitle>Forms</CardTitle>
          </CardHeader>
          <CardContent>
-           <FormsTable forms={forms} />
+           <FormsTable forms={formsWithResponses} />
          </CardContent>
        </Card>
      </div>
