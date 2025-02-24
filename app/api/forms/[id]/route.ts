@@ -6,9 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await auth.api.getSession({ headers: headers() });
+    await auth.api.getSession({ headers: await headers() });
 
-    const formId = params.id;
+    const formId = await params;
     if (!formId) {
       return NextResponse.json({ error: "Invalid request: missing ID" }, { status: 400 });
     }
@@ -31,13 +31,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await auth.api.getSession({ headers: req.headers });
+    const session = await auth.api.getSession({ headers: await headers() });
 
     if (!session?.user || (session.user.role !== "user" && session.user.role !== "admin")) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const formId = params.id;
+    const formId = await params;
     if (!formId) {
       return NextResponse.json({ error: "Invalid request: missing ID" }, { status: 400 });
     }
@@ -67,12 +67,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await auth.api.getSession({ headers: req.headers });
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authorized" }, { status: 401 });
     }
 
-    const formId = params.id;
+    const formId = await params;
     const { answers } = await req.json();
 
     if (!answers || typeof answers !== "object") {
@@ -109,9 +109,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const formId = params.id;
+    const formId = await params;
 
     if (!formId) {
       return NextResponse.json({ error: "Form ID is required" }, { status: 400 });
