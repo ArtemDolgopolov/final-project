@@ -7,7 +7,7 @@ interface Form {
   id: string;
   title: string;
   description: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 interface Response {
