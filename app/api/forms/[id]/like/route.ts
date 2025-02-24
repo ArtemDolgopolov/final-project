@@ -3,12 +3,11 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { v4 as uuidv4 } from "uuid";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest) {
   try {
-    const formId = params.id;
+    const url = new URL(req.url);
+    const formId = url.pathname.split("/").at(-2); // Получаем ID формы из URL
+
     if (!formId) {
       return NextResponse.json({ error: "Не указан ID формы" }, { status: 400 });
     }
@@ -24,17 +23,16 @@ export async function GET(
   }
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session?.user) {
       return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
     }
 
-    const formId = params.id;
+    const url = new URL(req.url);
+    const formId = url.pathname.split("/").at(-2); // Получаем ID формы из URL
+
     if (!formId) {
       return NextResponse.json({ error: "Не указан ID формы" }, { status: 400 });
     }
