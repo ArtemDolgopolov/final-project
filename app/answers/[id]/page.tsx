@@ -17,17 +17,18 @@ export default async function AnswersPage({ params }: AnswersPageProps) {
   if (!userId) {
     return <p className="text-center mt-10">You should be authorized</p>;
   }
-
-  const response = await prisma.response.findFirst({
+  
+  // проблема
+  const responses = await prisma.response.findFirst({
     where: { userId, formId },
     include: { form: true },
   });
 
-  if (!response) {
+  if (!responses) {
     return notFound();
   }
 
-  const questions = response.form.questions as {
+  const questions = responses.form.questions as {
     id: string;
     title: string;
     label: string;
@@ -38,8 +39,8 @@ export default async function AnswersPage({ params }: AnswersPageProps) {
    <EditableAnswers
      formId={formId}
      initialAnswers={
-       response.answers
-       ? (response.answers as Record<string, string>)
+       responses.answers
+       ? (responses.answers as Record<string, string>)
        : {}
      }
      questions={questions}
