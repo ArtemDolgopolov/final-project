@@ -10,11 +10,11 @@ interface Form {
   createdAt: Date;
 }
 
-interface Response {
+interface UserResponse {
   id: string;
   formId: string;
-  answers: Record<string, string>;
-  createdAt: string;
+  answers: Record<string, string> | null;
+  createdAt: Date;
 }
 
 export default async function UserDashboard() {
@@ -30,10 +30,10 @@ export default async function UserDashboard() {
     select: { id: true, title: true, description: true, createdAt: true },
   });
 
-  const responses = await prisma.response.findMany({
+  const responses = (await prisma.response.findMany({
     where: { userId },
     select: { id: true, formId: true, answers: true, createdAt: true },
-  });
+  })) as UserResponse[];
 
   return (
     <div className="bg-gray-100 min-h-screen py-10">
@@ -63,9 +63,11 @@ export default async function UserDashboard() {
           <h2 className="text-2xl font-semibold mb-4">Мои ответы</h2>
           <div className="space-y-4">
             {responses.length > 0 ? (
-              responses.map((response: Response) => (
+              responses.map((response: UserResponse) => (
                 <div key={response.id} className="bg-white p-4 shadow-md rounded-md">
-                  <p className="text-sm text-gray-600">Ответ сохранен: {new Date(response.createdAt).toLocaleString()}</p>
+                  <p className="text-sm text-gray-600">
+                    Ответ сохранен: {new Date(response.createdAt).toLocaleString()}
+                  </p>
                   <Link href={`/answers/${response.formId}`} className="text-blue-500 hover:underline">
                     Watch answers
                   </Link>
