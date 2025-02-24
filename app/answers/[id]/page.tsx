@@ -35,10 +35,14 @@ export default async function AnswersPage({ params }: AnswersPageProps) {
   }[];
 
   return (
-    <EditableAnswers
-      formId={formId}
-      initialAnswers={response.answers}
-      questions={questions}
-    />
+   <EditableAnswers
+     formId={formId}
+     initialAnswers={
+       response.answers
+       ? (response.answers as Record<string, string>)
+       : {}
+     }
+     questions={questions}
+   />
   );
 }
