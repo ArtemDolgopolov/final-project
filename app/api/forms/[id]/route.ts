@@ -3,13 +3,12 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 import { v4 as uuidv4 } from "uuid";
-import { RouteHandlerContext } from "next/server";
 
-export async function GET(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await auth.api.getSession({ headers: headers() });
 
-    const formId = context.params.id;
+    const formId = params.id;
     if (!formId) {
       return NextResponse.json({ error: "Invalid request: missing ID" }, { status: 400 });
     }
@@ -30,7 +29,7 @@ export async function GET(req: NextRequest, context: RouteHandlerContext<{ id: s
   }
 }
 
-export async function POST(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await auth.api.getSession({ headers: req.headers });
 
@@ -38,7 +37,7 @@ export async function POST(req: NextRequest, context: RouteHandlerContext<{ id: 
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const formId = context.params.id;
+    const formId = params.id;
     if (!formId) {
       return NextResponse.json({ error: "Invalid request: missing ID" }, { status: 400 });
     }
@@ -66,14 +65,14 @@ export async function POST(req: NextRequest, context: RouteHandlerContext<{ id: 
   }
 }
 
-export async function PUT(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await auth.api.getSession({ headers: req.headers });
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authorized" }, { status: 401 });
     }
 
-    const formId = context.params.id;
+    const formId = params.id;
     const { answers } = await req.json();
 
     if (!answers || typeof answers !== "object") {
@@ -110,9 +109,9 @@ export async function PUT(req: NextRequest, context: RouteHandlerContext<{ id: s
   }
 }
 
-export async function DELETE(req: NextRequest, context: RouteHandlerContext<{ id: string }>) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const formId = context.params.id;
+    const formId = params.id;
 
     if (!formId) {
       return NextResponse.json({ error: "Form ID is required" }, { status: 400 });
