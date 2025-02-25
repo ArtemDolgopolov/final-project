@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
+import { Form } from "@prisma/client"
 
 export default async function Admin() {
  const session = await auth.api.getSession({ headers: await headers() });
@@ -19,7 +20,7 @@ export default async function Admin() {
    orderBy: { createdAt: "desc" },
  });
 
- const formIds = forms.map((form) => form.id);
+ const formIds = forms.map((form: Form) => form.id);
  const responses = await prisma.response.findMany({
    where: { formId: { in: formIds } },
  });

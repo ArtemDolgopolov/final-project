@@ -146,7 +146,7 @@ export default function FormPage() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="bg-[#E3F4F4] w-full min-h-screen py-10">
+    <div className="w-full min-h-screen py-10">
       <form className="w-full max-w-3xl mx-auto px-6 md:px-0">
         <div className="border-t-8 border-[#29A0B1] bg-white shadow-md rounded-md w-full mx-auto p-6">
           <h1 className="text-3xl font-bold capitalize border-b-2 border-gray-300 w-full py-2">

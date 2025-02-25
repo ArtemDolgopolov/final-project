@@ -41,7 +41,7 @@ export default function EditableAnswers({
   return (
     <div className="bg-gray-100 min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-6 md:px-0">
-        <h1 className="text-3xl font-bold mb-6">Редактирование ответов</h1>
+        <h1 className="text-3xl font-bold mb-6">Answers Editor</h1>
 
         <div className="bg-white p-6 shadow-md rounded-md">
           <div className="mt-6 space-y-4">

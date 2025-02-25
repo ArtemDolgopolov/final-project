@@ -1,7 +1,6 @@
 "use client"
 
-import { RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateQuestionTitle, updateQuestionType } from "@/redux/formSlice";
 import { Select } from "antd";
 import EditButton from "./edit-button";
@@ -45,10 +44,6 @@ export default function Question({
   onclick: (event: React.MouseEvent<HTMLDivElement>) => void;
 }) {
 
-  const activeQuestionIndex = useSelector(
-    (state: RootState) => state.form.activeQuestionIndex
-  );
-
   const { title, type } = value;
   const dispatch = useDispatch();
 
@@ -63,13 +58,7 @@ export default function Question({
  const qType = data.find((elem) => elem.title === type);
 
   return (
-    <div onClick={onclick} className="flex md:flex-row flex-col justify-center items-center w-full max-w-3xl mx-auto">
-      <div className={`rounded-md my-6 ${
-        activeQuestionIndex === index
-          ? "border-l-4 border-[#29A0B1]"
-          : "border border-gray-300"
-      } bg-white max-w-2xl shadow w-full grid place-items-center lg:place-items-start lg:ml-10 mx-auto`}>
-      </div>
+    <div onClick={onclick} className="flex flex-col justify-center items-center w-full max-w-3xl mx-auto">
       <div className="w-full md:px-6 px-2 flex md:flex-row flex-col md:justify-between justify-center items-center gap-8 py-6">
        <input 
          type="text" 

@@ -20,10 +20,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { authClient } from "@/auth-client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function SignUp() {
+ const router = useRouter();
  const [pending, setPending] = useState(false);
  const { toast } = useToast();
  const form = useForm<z.infer<typeof signUpSchema>>({
@@ -48,6 +50,8 @@ export default function SignUp() {
 					setPending(true);
 				},
 				onSuccess: () => {
+     router.push("/");
+					router.refresh();
 					toast({
 						title: "Account created",
 						description:

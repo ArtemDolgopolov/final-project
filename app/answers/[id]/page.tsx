@@ -18,7 +18,6 @@ export default async function AnswersPage({ params }: AnswersPageProps) {
     return <p className="text-center mt-10">You should be authorized</p>;
   }
   
-  // проблема
   const responses = await prisma.response.findFirst({
     where: { userId, formId },
     include: { form: true },
