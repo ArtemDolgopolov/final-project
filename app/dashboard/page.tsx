@@ -2,7 +2,20 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-import { Form, Response } from "@prisma/client";
+
+interface Form {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: Date;
+}
+
+interface UserResponse {
+  id: string;
+  formId: string;
+  answers: Record<string, string> | null;
+  createdAt: Date;
+}
 
 export default async function UserDashboard() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -17,10 +30,10 @@ export default async function UserDashboard() {
     select: { id: true, title: true, description: true, createdAt: true },
   });
 
-  const responses = await prisma.response.findMany({
+  const responses = (await prisma.response.findMany({
     where: { userId },
     select: { id: true, formId: true, answers: true, createdAt: true },
-  });
+  })) as UserResponse[];
 
   return (
     <div className="bg-gray-100 min-h-screen py-10">
@@ -50,7 +63,7 @@ export default async function UserDashboard() {
           <h2 className="text-2xl font-semibold mb-4">My answers</h2>
           <div className="space-y-4">
             {responses.length > 0 ? (
-              responses.map((response: Response) => (
+              responses.map((response: UserResponse) => (
                 <div key={response.id} className="bg-white p-4 shadow-md rounded-md">
                   <p className="text-sm text-gray-600">Answer saved : {new Date(response.createdAt).toLocaleString()}</p>
                   <Link href={`/answers/${response.formId}`} className="text-blue-500 hover:underline">
