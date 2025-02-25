@@ -94,7 +94,7 @@ export default function UsersTable({ userId }: { userId: string }) {
               )}
             </TableCell>
             <TableCell>
-              {new Date(user.createdAt).toLocaleDateString()}
+              {new Date(user.createdAt).toLocaleString()}
             </TableCell>
             <TableCell className="flex gap-2">
               {user.id === userId ? (

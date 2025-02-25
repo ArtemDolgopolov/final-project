@@ -58,7 +58,7 @@ export default function FormsTable({ forms }: FormsTableProps) {
           <TableRow key={form.id}>
             <TableCell>{form.title}</TableCell>
             <TableCell>{form.user.name || "Unknown"}</TableCell>
-            <TableCell>{new Date(form.createdAt).toLocaleDateString()}</TableCell>
+            <TableCell>{new Date(form.createdAt).toLocaleString()}</TableCell>
             <TableCell>
               <Button
                 variant="destructive"
