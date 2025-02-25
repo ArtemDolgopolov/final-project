@@ -2,20 +2,7 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
-
-interface Form {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: Date;
-}
-
-interface Response {
-  id: string;
-  formId: string;
-  answers: Record<string, string> | null;
-  createdAt: string;
-}
+import { Form, Response } from "@prisma/client";
 
 export default async function UserDashboard() {
   const session = await auth.api.getSession({ headers: await headers() });
