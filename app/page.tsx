@@ -2,7 +2,6 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Form } from "@prisma/client"
 
 export default async function HomePage() {
   const session = await auth.api.getSession({
@@ -31,7 +30,7 @@ export default async function HomePage() {
      )}
 
      <div className="mt-6 space-y-4">
-       {forms.map((form: Form) => {
+       {forms.map((form) => {
          let href = `/forms/${form.id}`;
          
          if (
