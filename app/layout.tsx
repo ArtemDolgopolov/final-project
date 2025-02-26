@@ -26,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
  return (
    <html lang="en" suppressHydrationWarning>
-     <body className="antialiased">
+     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
        <div className="min-h-screen pt-20 flex flex-col">
          <ProviderLayout>
            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
