@@ -14,19 +14,19 @@ export default function ThemeSwitcher() {
 
   if (!mounted) return null;
   return (
-    <Tabs defaultValue={theme}>
-      <TabsList className="border">
+    <Tabs defaultValue={theme} className="flex justify-end mr-[15px]">
+      <TabsList className="border bg-gray">
         <TabsTrigger
           value="light"
           onClick={() => setTheme("light")}
         >
-          L
+          ☀️
         </TabsTrigger>
         <TabsTrigger
           value="dark"
           onClick={() => setTheme("dark")}
         >
-          D
+          🌙
         </TabsTrigger>
         <TabsTrigger
           value="system"

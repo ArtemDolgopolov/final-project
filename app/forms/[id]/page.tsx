@@ -143,12 +143,12 @@ export default function FormPage() {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p className="text-center">Loading...</p>;
 
   return (
     <div className="w-full min-h-screen py-10">
       <form className="w-full max-w-3xl mx-auto px-6 md:px-0">
-        <div className="border-t-8 border-[#29A0B1] bg-white shadow-md rounded-md w-full mx-auto p-6">
+        <div className="border-t-8 border-[#29A0B1] shadow-md rounded-md w-full mx-auto p-6">
           <h1 className="text-3xl font-bold capitalize border-b-2 border-gray-300 w-full py-2">
             {form?.title}
           </h1>
@@ -159,7 +159,7 @@ export default function FormPage() {
 
         <div className="space-y-4 mt-6">
           {form?.questions.map((field, index) => (
-            <div key={field.id || index} className="bg-white shadow-md rounded-md p-4">
+            <div key={field.id || index} className="shadow-md rounded-md p-4">
               <label className="block text-lg font-semibold text-gray-700">
                 {field.label}
               </label>

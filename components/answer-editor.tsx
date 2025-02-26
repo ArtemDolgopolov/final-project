@@ -39,14 +39,14 @@ export default function EditableAnswers({
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10">
+    <div className="min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-6 md:px-0">
         <h1 className="text-3xl font-bold mb-6">Answers Editor</h1>
 
-        <div className="bg-white p-6 shadow-md rounded-md">
+        <div className="p-6 shadow-md rounded-md">
           <div className="mt-6 space-y-4">
             {questions.map((field, index) => (
-              <div key={field.id || index} className="bg-gray-50 p-4 rounded-md shadow-sm">
+              <div key={field.id || index} className="p-4 rounded-md shadow-sm">
                 <label className="block text-lg font-semibold">{field.label}</label>
                 <p className="text-sm text-gray-500 mb-2">{field.title}</p>
 

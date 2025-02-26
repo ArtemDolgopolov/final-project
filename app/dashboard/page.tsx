@@ -36,16 +36,16 @@ export default async function UserDashboard() {
   })) as UserResponse[];
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10">
+    <div className="min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-6 md:px-0">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+        <h1 className="text-3xl text-center font-bold mb-6">Dashboard</h1>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">My Forms</h2>
+          <h2 className="text-2xl text-center font-semibold mb-4">My Forms</h2>
           <div className="space-y-4">
             {forms.length > 0 ? (
               forms.map((form: Form) => (
-                <div key={form.id} className="bg-white p-4 shadow-md rounded-md">
+                <div key={form.id} className="p-4 shadow-md rounded-md">
                   <h3 className="text-lg font-semibold">{form.title}</h3>
                   <p className="text-sm text-gray-600">{form.description}</p>
                   <Link href={`/forms/${form.id}`} className="text-blue-500 hover:underline">
@@ -54,17 +54,17 @@ export default async function UserDashboard() {
                 </div>
               ))
             ) : (
-              <p>No saved answers yet.</p>
+              <p className="text-center">No saved answers yet.</p>
             )}
           </div>
         </section>
 
         <section>
-          <h2 className="text-2xl font-semibold mb-4">My answers</h2>
+          <h2 className="text-2xl text-center font-semibold mb-4">My answers</h2>
           <div className="space-y-4">
             {responses.length > 0 ? (
               responses.map((response: UserResponse) => (
-                <div key={response.id} className="bg-white p-4 shadow-md rounded-md">
+                <div key={response.id} className="p-4 shadow-md rounded-md">
                   <p className="text-sm text-gray-600">Answer saved : {new Date(response.createdAt).toLocaleString()}</p>
                   <Link href={`/answers/${response.formId}`} className="text-blue-500 hover:underline">
                     Watch answers
@@ -72,7 +72,7 @@ export default async function UserDashboard() {
                 </div>
               ))
             ) : (
-              <p>You do not have saved answers.</p>
+              <p className="text-center">You do not have saved answers.</p>
             )}
           </div>
         </section>

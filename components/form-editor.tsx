@@ -80,7 +80,7 @@ export default function FormEditor() {
   return (
     <div className="w-full min-h-screen py-10">
       <form className="w-full max-w-3xl mx-auto px-4 md:px-0">
-        <div className="border-t-4 border-teal-500 bg-white shadow-lg rounded-lg p-6">
+        <div className="border-t-4 border-teal-500 shadow-lg rounded-lg p-6">
           <input
             type="text"
             onChange={handleTitleChange}
@@ -119,7 +119,7 @@ export default function FormEditor() {
           {questions.map((question, index) => (
             <div
               key={index}
-              className={`bg-white shadow-md rounded-lg p-5 transition-all ${
+              className={`shadow-md rounded-lg p-5 transition-all ${
                 index === activeQuestionIndex ? "ring-2 ring-teal-500" : ""
               }`}
             >
