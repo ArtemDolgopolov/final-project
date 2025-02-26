@@ -1,22 +1,17 @@
 "use client"
 
 import Link from "next/link";
-// import { Button } from "@/components/ui/button";
-// import SignoutButton from "./signout-button";
-// import { Session } from "@/auth";
-import ThemeSwitcher from "./theme-switcher";
-import AuthButtons from "./auth-buttons";
+import { Button } from "@/components/ui/button";
+import SignoutButton from "./signout-button";
+import { authClient } from "@/auth-client";
 
-export default function Navbar() {
-  return (
-    <nav className="flex justify-between items-center py-3 px-4 fixed top-0 left-0 right-0 z-50 bg-slate-100">
-      <Link href="/" className="text-xl font-bold">
-        Forms Creator
-      </Link>
-      <ThemeSwitcher />
-      <AuthButtons />
+export default function AuthButtons() {
+  const { data, isPending } = authClient.useSession();
+  if (isPending) return <div>Loading...</div>
 
-      {/* {!session ? (
+  const session = data;
+
+  return !session ? (
         <div className="flex gap-2">
           <Link href="/sign-in">
             <Button variant="default">Sign In</Button>
@@ -27,7 +22,6 @@ export default function Navbar() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <ThemeSwitcher />
           {session.user.role === "admin" && (
             <Link href="/admin">
               <Button variant="default">Admin</Button>
@@ -38,7 +32,5 @@ export default function Navbar() {
           </Link>
           <SignoutButton />
         </div>
-      )} */}
-    </nav>
-  );
+      );
 }
