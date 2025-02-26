@@ -4,7 +4,7 @@ import Link from "next/link";
 // import { Button } from "@/components/ui/button";
 // import SignoutButton from "./signout-button";
 // import { Session } from "@/auth";
-import ThemeSwitcher from "./theme-switcher";
+// import ThemeSwitcher from "./theme-switcher";
 import AuthButtons from "./auth-buttons";
 
 export default function Navbar() {
@@ -13,7 +13,7 @@ export default function Navbar() {
       <Link href="/" className="text-xl font-bold">
         Forms Creator
       </Link>
-      <ThemeSwitcher />
+      {/* <ThemeSwitcher /> */}
       <AuthButtons />
 
       {/* {!session ? (

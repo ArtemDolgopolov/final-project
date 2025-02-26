@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ProviderLayout from "./Provider";
 import { ThemeProvider } from "@/components/themeprovider/theme-provider";
+import ThemeSwitcher from "@/components/theme-switcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +27,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
  return (
    <html lang="en" suppressHydrationWarning>
-     <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+     <body suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
        <div className="min-h-screen pt-20 flex flex-col">
          <ProviderLayout>
            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
              <Navbar />
+             <ThemeSwitcher />
              {children}
            </ThemeProvider>
          </ProviderLayout>
