@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
+import SalesforceForm from "@/components/salesforce-form";
 
 interface Form {
   id: string;
@@ -20,6 +21,7 @@ interface UserResponse {
 export default async function UserDashboard() {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
+  const userRole = session?.user?.role;
 
   if (!userId) {
     return <p className="text-center mt-10">Вы должны быть авторизованы</p>;
@@ -39,6 +41,10 @@ export default async function UserDashboard() {
     <div className="min-h-screen py-10">
       <div className="max-w-4xl mx-auto px-6 md:px-0">
         <h1 className="text-3xl text-center font-bold mb-6">Dashboard</h1>
+
+        <div className="flex justify-center mb-4">
+          <SalesforceForm />
+        </div>
 
         <section className="mb-8">
           <h2 className="text-2xl text-center font-semibold mb-4">My Forms</h2>
