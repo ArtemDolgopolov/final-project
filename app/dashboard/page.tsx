@@ -21,7 +21,6 @@ interface UserResponse {
 export default async function UserDashboard() {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id;
-  const userRole = session?.user?.role;
 
   if (!userId) {
     return <p className="text-center mt-10">Вы должны быть авторизованы</p>;
